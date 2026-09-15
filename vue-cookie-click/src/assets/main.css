@@ -1,0 +1,37 @@
+:root{
+  --bgColor:rgb(197, 165, 124);
+  --sidebarColor: #b07f5a;
+
+  --btnPadding:6px;
+  --btnWidth:65px;
+  
+}
+
+#app { 
+  display:flex;
+  justify-content: center;
+  width:100vw;
+  height:100vh;
+}
+
+body{
+  background:var(--bgColor);
+  margin:0; padding:0;
+
+}
+
+*{
+  user-select:none;
+  font-family:"Short Stack", cursive;
+}
+
+
+
+@keyframes rotate_cookie {
+  50%{
+    transform:rotate(180deg);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
+}
