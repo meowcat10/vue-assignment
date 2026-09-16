@@ -1,17 +1,38 @@
 <script>
+import defaultCookie from './icons/defaultCookie.png';
+import whiteCookie from './icons/whiteCookie.png';
+import smartCookie from './icons/smartCookie.png';
+
 export default {
     name: 'Game',
     components: {  },
     data() {
-        return { }
+        return { 
+            currentSkin:0,
+            cookieSkins:[
+                { src: defaultCookie, index: 0 },
+                { src: whiteCookie, index: 1 },
+                { src: smartCookie, index: 2 }
+            ]
+        }
     },
     props: { 
         clickRatio: { type:Number, required: true },
-        clicks: { type:Number, required:true }
+        clicks: { type:Number, required:true },
+        cookieSkin: { type: Number, required: true}
     },
-    computed: { },
+    computed: {
+        rotationDuration(){
+            // Spins faster as clicks go up, capped at a minimum duration
+            return Math.max(0.2, 5 - this.clicks / 20) + 's';
+        }
+    },
     methods: { },
-    watch: { },
+    watch: { 
+        cookieSkin(newVal){
+            this.currentSkin = newVal;
+        }
+    },
     emits: ['user-click'],
 }
 </script>
@@ -20,7 +41,12 @@ export default {
     <main>
         <h3>{{ clicks }}</h3>
         <p>{{ clickRatio }} Cookies pr click!</p>
-        <img @click="this.$emit('user-click')" src="./icons/pngtree-chocolate-chip-cookie-icon-white-background-png-image_16100260.png" alt="Cookie">
+        <img
+            @cookieChange="changeSkin($event)"
+            @click="this.$emit('user-click')"
+            :style="{ animationDuration: rotationDuration }"
+            :src="this.cookieSkins[this.currentSkin].src"
+            alt="Cookie">
     </main>
 </template>
 
@@ -38,9 +64,14 @@ export default {
         }
 
         img{
-            max-width:300px;
-            max-height:300px;
-            animation: rotate_cookie 3s infinite linear;
+            max-width:275px;
+            max-height:275px;
+            animation: rotate_cookie 5s infinite linear;
+            transition: all 0.5s;
+            
+            &:hover{
+                cursor:pointer;
+            }
         }
     }
 

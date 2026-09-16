@@ -13,14 +13,19 @@ export default {
                     highest_score:0,
 
                     upgrades:0,
-                    cookie_skin:1,
+                    cookie_skin:0,
                 },
 
                 shop:[
                     { upgrade: 'Double Click', ratio: 2, price: 50 },
                     { upgrade: 'Triple Click', ratio: 3, price: 100 },
-                    { upgrade: '', ratio: 4, price:150 },
-                    { upgrade: '', ratio: 5 , price:200 },
+                    { upgrade: 'Quadruple Click', ratio: 4, price:150 },
+                    { upgrade: 'Quintuple', ratio: 5 , price: 200 },
+                    { upgrade: 'Sextuple', ratio: 6, price: 300 },
+                    { upgrade: 'Septuple', ratio: 7, price: 400 },
+                    { upgrade: 'Octuple', ratio: 8, price: 600 },
+                    { upgrade: 'Nonuple', ratio: 9, price: 850 },
+                    { upgrade: 'Decuple', ratio: 10, price: 1000 }
                 ],
 
                 tasks:[
@@ -34,7 +39,7 @@ export default {
     },
     props:{ },
     
-    methods:{
+    methods: {
         getData(){
             const player = this.game.player;
             const shop = this.game.shop;
@@ -49,8 +54,9 @@ export default {
 
             // Checks if any tasks are completed (Regardless of upgrades)
             tasks.forEach(task => {
-                if (player.clicks-player.click_ratio == task.goal){
-                    player.clicks+=task.reward;
+                if (player.clicks-player.click_ratio == task.goal 
+                    || player.clicks == task.goal){
+                        player.clicks+=task.reward;
                 }
             })
 
@@ -59,7 +65,7 @@ export default {
                 player.highest_score = player.clicks;
             }
             
-            console.log(player.clicks);  
+            // console.log(player.clicks);  
         },
 
         buyUpgrade(){
@@ -72,14 +78,21 @@ export default {
                 player.click_ratio = shop[player.upgrades].ratio;
                 player.upgrades++;
             } else { alert('Do you not have enough clicks!') }
+        },
+        skinChange(){
+            // Ensures index stays within skin limit
+            const getSkinIndex = this.getData().player;
+            if (getSkinIndex.cookie_skin < 2){
+                getSkinIndex.cookie_skin++;
+            } else if (getSkinIndex.cookie_skin == 2){
+                getSkinIndex.cookie_skin = 0;
+            }
         }
-
     }
 }
 </script>
 
 <template>
-
   <main class="gameContainer">
 
     <!-- Side -->
@@ -104,10 +117,8 @@ export default {
 
           <!-- Skin (Button) -->
           <div class="btnRow">
-            <div class="btn-text">Debug</div>
-            <button @click="
-                console.log(getData());
-            ">Stats</button>
+            <div class="btn-text">Skin</div>
+            <button @click="skinChange()">Change</button>
           </div>
         </div>
 
@@ -121,7 +132,7 @@ export default {
 
         <!-- Tasks -->
         <ul>
-          <li class="playerTask"> {{ getData().tasks[0].task }}<br><span style="font-size:10px">Reward: {{ game.tasks[0].reward }}</span></li>
+          <li class="playerTask" > {{ getData().tasks[0].task }}<br><span style="font-size:10px">Reward: {{ game.tasks[0].reward }}</span></li>
           <li class="playerTask"> {{ getData().tasks[1].task }}<br><span style="font-size:10px">Reward: {{ game.tasks[1].reward }}</span></li>
         </ul>
               
@@ -129,9 +140,10 @@ export default {
     </section>
 
     <!-- Game (Props sent and Emit listener)-->
-    <Game 
-        :click-ratio="getData().player.click_ratio" 
+    <Game
+        :click-ratio="getData().player.click_ratio"
         :clicks="getData().player.clicks"
+        :cookie-skin="getData().player.cookie_skin"
         @user-click="userClick()"
     />
 
@@ -166,8 +178,6 @@ export default {
         font-weight:bold;
         background:#95614b;
       }
-      
-      
       
       .btnContainer{
         display:flex;
