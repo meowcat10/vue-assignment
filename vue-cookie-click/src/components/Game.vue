@@ -24,7 +24,7 @@ export default {
     computed: {
         rotationDuration(){
             // Spins faster as clicks go up, capped at a minimum duration
-            return Math.max(0.2, 5 - this.clicks / 20) + 's';
+            return Math.max(0.5, 5 - this.clicks / 20) + 's';
         }
     },
     methods: { },

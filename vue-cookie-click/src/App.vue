@@ -11,6 +11,7 @@ export default {
                     clicks:0, // Amount of Clicks (Default)
                     click_ratio:1, // Clicks pr cookie (increases with upgrades)
                     highest_score:0,
+                    completedTasks:0,
 
                     upgrades:0,
                     cookie_skin:0,
@@ -31,7 +32,9 @@ export default {
                 tasks:[
                     { task: 'Reach 50 clicks', goal: 50, reward: 50 },
                     { task: 'Reach 150 clicks', goal: 150, reward: 50 },
-                    { task: 'Reach 250 clicks', goal: 250, reward: 75 }
+                    { task: 'Reach 250 clicks', goal: 250, reward: 75 },
+                    { task: 'Reach 500 clicks', goal: 500, reward: 200 }
+                    
                 ]
             }
 
@@ -52,20 +55,21 @@ export default {
             // Ratio applies upgrades (if player has any)
             player.clicks += player.click_ratio;
 
-            // Checks if any tasks are completed (Regardless of upgrades)
-            tasks.forEach(task => {
-                if (player.clicks-player.click_ratio == task.goal 
-                    || player.clicks == task.goal){
-                        player.clicks+=task.reward;
+            // Checks if tasks are completed (Regardless of upgrades)
+            if (tasks[player.completedTasks]){
+                if (player.clicks >= tasks[player.completedTasks].goal) {
+                    player.clicks+= tasks[player.completedTasks].reward;
+                    tasks[player.completedTasks].task += ' (DONE)';
+                    player.completedTasks++;
                 }
-            })
+            }
+            
 
             // Update highest if new
             if (player.clicks > player.highest_score) {
                 player.highest_score = player.clicks;
             }
             
-            // console.log(player.clicks);  
         },
 
         buyUpgrade(){
@@ -132,8 +136,10 @@ export default {
 
         <!-- Tasks -->
         <ul>
-          <li class="playerTask" > {{ getData().tasks[0].task }}<br><span style="font-size:10px">Reward: {{ game.tasks[0].reward }}</span></li>
-          <li class="playerTask"> {{ getData().tasks[1].task }}<br><span style="font-size:10px">Reward: {{ game.tasks[1].reward }}</span></li>
+          <li v-for="(task, index) in getData().tasks" :key="index">
+            {{ task.task }}<br>
+            <span style="font-size:10px">Reward: {{ task.reward }}</span>
+          </li>
         </ul>
               
       </section>
