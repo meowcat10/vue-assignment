@@ -21,12 +21,12 @@ export default {
                     { upgrade: 'Double Click', ratio: 2, price: 50 },
                     { upgrade: 'Triple Click', ratio: 3, price: 100 },
                     { upgrade: 'Quadruple Click', ratio: 4, price:150 },
-                    { upgrade: 'Quintuple', ratio: 5 , price: 200 },
-                    { upgrade: 'Sextuple', ratio: 6, price: 300 },
-                    { upgrade: 'Septuple', ratio: 7, price: 400 },
-                    { upgrade: 'Octuple', ratio: 8, price: 600 },
-                    { upgrade: 'Nonuple', ratio: 9, price: 850 },
-                    { upgrade: 'Decuple', ratio: 10, price: 1000 }
+                    { upgrade: 'Quintuple Click', ratio: 5 , price: 200 },
+                    { upgrade: 'Sextuple Click', ratio: 6, price: 300 },
+                    { upgrade: 'Septuple Click', ratio: 7, price: 400 },
+                    { upgrade: 'Octuple Click', ratio: 8, price: 600 },
+                    { upgrade: 'Nonuple Click', ratio: 9, price: 850 },
+                    { upgrade: 'Decuple Click', ratio: 10, price: 1000 }
                 ],
 
                 tasks:[
